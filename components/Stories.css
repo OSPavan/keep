@@ -1,0 +1,34 @@
+.card1 {
+    box-sizing: border-box;
+    width: 150px;
+    height: 150px;
+    background: rgba(217, 217, 217, 0.58);
+    border: 1px solid white;
+    border-radius: 100%;
+    box-shadow: 5px 12px 5px #00000038;
+    backdrop-filter: blur(6px);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    display: inline-grid;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    font-weight: bolder;
+    color: black;
+    margin-right: 10px;
+  }
+  
+  .card1:hover {
+    border: 1px solid black;
+    transform: scale(1.05);
+  }
+  
+  .card:active {
+    transform: scale(0.95) rotateZ(1.7deg);
+  }
+  .storiesMain{
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }

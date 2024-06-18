@@ -1,0 +1,45 @@
+.header {
+  font-size: 24px;
+}
+
+.mainDiv {
+  font-family: sans-serif;
+}
+
+.card1 {
+  box-sizing: border-box;
+  backdrop-filter: blur(6px);
+  text-align: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  color: #000;
+  background: #d9d9d994;
+  border: 1px solid #fff;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  margin-right: 10px;
+  font-weight: bolder;
+  transition: all .5s;
+  display: inline-grid;
+  box-shadow: 5px 12px 5px #00000038;
+}
+
+.card1:hover {
+  border: 1px solid #000;
+  transform: scale(1.05);
+}
+
+.card:active {
+  transform: scale(.95)rotateZ(1.7deg);
+}
+
+.storiesMain {
+  white-space: nowrap;
+  width: 100%;
+  overflow-x: auto;
+}
+/*# sourceMappingURL=index.c41b5a0e.css.map */
