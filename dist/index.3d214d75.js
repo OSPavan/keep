@@ -27488,6 +27488,12 @@ function Stories({ selectedStory, setSelectedStory }) {
         });
     }
     (0, _react.useEffect)(()=>{
+        debugger;
+        sessionStorage.setItem("story", JSON.stringify(story));
+    }, [
+        story
+    ]);
+    (0, _react.useEffect)(()=>{
         if (selectedStory) {
             let temp = story.filter((x)=>x.name == selectedStory);
             console.log(temp);
@@ -27496,6 +27502,10 @@ function Stories({ selectedStory, setSelectedStory }) {
     }, [
         selectedStory
     ]);
+    (0, _react.useEffect)(()=>{
+        let sessionStory = sessionStorage.getItem("story");
+        if (sessionStory) setStory(JSON.parse(sessionStory));
+    }, []);
     function onStorySelection(item) {
         setSelectedStory(item.name);
     }
@@ -27513,7 +27523,7 @@ function Stories({ selectedStory, setSelectedStory }) {
                             children: item.name
                         }, item.name, false, {
                             fileName: "components/Stories.js",
-                            lineNumber: 35,
+                            lineNumber: 50,
                             columnNumber: 28
                         }, this);
                     }),
@@ -27526,13 +27536,13 @@ function Stories({ selectedStory, setSelectedStory }) {
                         children: "+"
                     }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 39,
+                        lineNumber: 54,
                         columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "components/Stories.js",
-                lineNumber: 33,
+                lineNumber: 48,
                 columnNumber: 13
             }, this),
             showForm && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27544,12 +27554,12 @@ function Stories({ selectedStory, setSelectedStory }) {
                     setSelectedStory: setSelectedStory
                 }, void 0, false, {
                     fileName: "components/Stories.js",
-                    lineNumber: 44,
+                    lineNumber: 59,
                     columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "components/Stories.js",
-                lineNumber: 43,
+                lineNumber: 58,
                 columnNumber: 26
             }, this),
             selectedStory && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27563,14 +27573,14 @@ function Stories({ selectedStory, setSelectedStory }) {
                         type: "textbox"
                     }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 48,
+                        lineNumber: 63,
                         columnNumber: 45
                     }, this),
                     " "
                 ]
             }, void 0, true, {
                 fileName: "components/Stories.js",
-                lineNumber: 48,
+                lineNumber: 63,
                 columnNumber: 17
             }, this),
             selectedStory && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -27584,7 +27594,7 @@ function Stories({ selectedStory, setSelectedStory }) {
                         children: "SAVE"
                     }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 53,
+                        lineNumber: 68,
                         columnNumber: 21
                     }, this),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27593,19 +27603,19 @@ function Stories({ selectedStory, setSelectedStory }) {
                         children: "SAVE"
                     }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 54,
+                        lineNumber: 69,
                         columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "components/Stories.js",
-                lineNumber: 52,
+                lineNumber: 67,
                 columnNumber: 17
             }, this)
         ]
     }, void 0, true);
 }
-_s(Stories, "FUdEDz9rWRYaYdojFMMG8bM73h4=");
+_s(Stories, "ZKBHP/uRT53C3u2HTtGUzMU08Vk=");
 _c = Stories;
 exports.default = Stories;
 var _c;

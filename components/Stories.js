@@ -18,12 +18,27 @@ function Stories({ selectedStory, setSelectedStory }) {
         })
     }
     useEffect(() => {
+        debugger
+        sessionStorage.setItem('story', JSON.stringify(story))
+    }, [story])
+
+    useEffect(() => {
         if (selectedStory) {
             let temp = story.filter(x => x.name == selectedStory)
             console.log(temp);
             setStoryContent(temp[0].content)
         }
     }, [selectedStory])
+
+    useEffect(()=>{
+        
+      let sessionStory = sessionStorage.getItem('story')
+      if(sessionStory){
+        
+        setStory(JSON.parse(sessionStory))
+      }
+    },[])
+
     function onStorySelection(item) {
         setSelectedStory(item.name)
 
@@ -36,7 +51,7 @@ function Stories({ selectedStory, setSelectedStory }) {
                         {item.name}
                     </div>
                 })}
-                <div className="card1" onClick={() => { setShowForm(true);setStoryContent('') }}>
+                <div className="card1" onClick={() => { setShowForm(true); setStoryContent('') }}>
                     +
                 </div>
             </div>
