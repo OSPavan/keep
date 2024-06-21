@@ -27396,7 +27396,12 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _mainCss = require("./main.css");
 var _stories = require("./Stories");
 var _storiesDefault = parcelHelpers.interopDefault(_stories);
+var _textBox = require("./TextBox");
+var _textBoxDefault = parcelHelpers.interopDefault(_textBox);
+var _s = $RefreshSig$();
 const App = ()=>{
+    _s();
+    const [selectedStory, setSelectedStory] = (0, _react.useState)("");
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
             className: " mainDiv ",
@@ -27406,29 +27411,43 @@ const App = ()=>{
                     children: "KEEP"
                 }, void 0, false, {
                     fileName: "components/App.js",
-                    lineNumber: 9,
+                    lineNumber: 13,
                     columnNumber: 7
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                     className: "container col-12",
-                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _storiesDefault.default), {}, void 0, false, {
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "col-12",
+                        children: [
+                            " ",
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _storiesDefault.default), {
+                                selectedStory: selectedStory,
+                                setSelectedStory: setSelectedStory
+                            }, void 0, false, {
+                                fileName: "components/App.js",
+                                lineNumber: 15,
+                                columnNumber: 33
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
                         fileName: "components/App.js",
-                        lineNumber: 11,
-                        columnNumber: 9
+                        lineNumber: 15,
+                        columnNumber: 8
                     }, undefined)
                 }, void 0, false, {
                     fileName: "components/App.js",
-                    lineNumber: 10,
+                    lineNumber: 14,
                     columnNumber: 7
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "components/App.js",
-            lineNumber: 8,
+            lineNumber: 12,
             columnNumber: 5
         }, undefined)
     }, void 0, false);
 };
+_s(App, "L3vqU5E6UU6Dj8glOsMZy4i4uQ4=");
 _c = App;
 exports.default = App;
 var _c;
@@ -27439,7 +27458,7 @@ $RefreshReg$(_c, "App");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./main.css":"5qXlL","./Stories":"8rBDF"}],"5qXlL":[function() {},{}],"8rBDF":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./main.css":"5qXlL","./Stories":"8rBDF","./TextBox":"3Xc81"}],"5qXlL":[function() {},{}],"8rBDF":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$01cd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27452,52 +27471,141 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _storiesCss = require("./Stories.css");
+var _newStoryFrom = require("./NewStoryFrom");
+var _newStoryFromDefault = parcelHelpers.interopDefault(_newStoryFrom);
 var _s = $RefreshSig$();
-function Stories() {
+function Stories({ selectedStory, setSelectedStory }) {
     _s();
-    const [story, setStory] = (0, _react.useState)([
-        1
-    ]);
-    function addStory() {
+    const [story, setStory] = (0, _react.useState)([]);
+    const [showForm, setShowForm] = (0, _react.useState)(false);
+    const [storyContent, setStoryContent] = (0, _react.useState)("");
+    function onSave() {
         setStory((prev)=>{
-            return [
-                ...prev,
-                2
-            ];
+            return prev.map((item)=>item.name === selectedStory ? {
+                    ...item,
+                    content: storyContent
+                } : item);
         });
     }
+    (0, _react.useEffect)(()=>{
+        if (selectedStory) {
+            let temp = story.filter((x)=>x.name == selectedStory);
+            console.log(temp);
+            setStoryContent(temp[0].content);
+        }
+    }, [
+        selectedStory
+    ]);
+    function onStorySelection(item) {
+        setSelectedStory(item.name);
+    }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
-        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-            className: "storiesMain py-3",
-            children: [
-                story.map((item)=>{
-                    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        class: "card1",
-                        children: "Click me"
-                    }, item, false, {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "storiesMain py-3 px-1",
+                children: [
+                    story.map((item)=>{
+                        return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            onClick: ()=>{
+                                onStorySelection(item);
+                            },
+                            className: selectedStory == item.name ? "card1 activeCard" : "card1",
+                            children: item.name
+                        }, item.name, false, {
+                            fileName: "components/Stories.js",
+                            lineNumber: 35,
+                            columnNumber: 28
+                        }, this);
+                    }),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "card1",
+                        onClick: ()=>{
+                            setShowForm(true);
+                            setStoryContent("");
+                        },
+                        children: "+"
+                    }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 20,
-                        columnNumber: 23
-                    }, this);
-                }),
-                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                    class: "card1",
-                    onClick: addStory,
-                    children: "+"
+                        lineNumber: 39,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "components/Stories.js",
+                lineNumber: 33,
+                columnNumber: 13
+            }, this),
+            showForm && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "newStoryForm",
+                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _newStoryFromDefault.default), {
+                    setStory: setStory,
+                    setShowForm: setShowForm,
+                    selectedStory: selectedStory,
+                    setSelectedStory: setSelectedStory
                 }, void 0, false, {
                     fileName: "components/Stories.js",
-                    lineNumber: 24,
-                    columnNumber: 13
+                    lineNumber: 44,
+                    columnNumber: 17
                 }, this)
-            ]
-        }, void 0, true, {
-            fileName: "components/Stories.js",
-            lineNumber: 18,
-            columnNumber: 9
-        }, this)
-    }, void 0, false);
+            }, void 0, false, {
+                fileName: "components/Stories.js",
+                lineNumber: 43,
+                columnNumber: 26
+            }, this),
+            selectedStory && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "col-12",
+                children: [
+                    "    ",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        value: storyContent,
+                        onChange: (e)=>setStoryContent(e.target.value),
+                        className: "input",
+                        type: "textbox"
+                    }, void 0, false, {
+                        fileName: "components/Stories.js",
+                        lineNumber: 48,
+                        columnNumber: 45
+                    }, this),
+                    " "
+                ]
+            }, void 0, true, {
+                fileName: "components/Stories.js",
+                lineNumber: 48,
+                columnNumber: 17
+            }, this),
+            selectedStory && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: "btn-23",
+                onClick: ()=>{
+                    onSave();
+                },
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        className: "text",
+                        children: "SAVE"
+                    }, void 0, false, {
+                        fileName: "components/Stories.js",
+                        lineNumber: 53,
+                        columnNumber: 21
+                    }, this),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                        "aria-hidden": "",
+                        className: "marquee",
+                        children: "SAVE"
+                    }, void 0, false, {
+                        fileName: "components/Stories.js",
+                        lineNumber: 54,
+                        columnNumber: 21
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "components/Stories.js",
+                lineNumber: 52,
+                columnNumber: 17
+            }, this)
+        ]
+    }, void 0, true);
 }
-_s(Stories, "o9+5udErXtyMCwxbyk1X3DoQPHY=");
+_s(Stories, "FUdEDz9rWRYaYdojFMMG8bM73h4=");
 _c = Stories;
 exports.default = Stories;
 var _c;
@@ -27508,6 +27616,135 @@ $RefreshReg$(_c, "Stories");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./Stories.css":"aiK5T"}],"aiK5T":[function() {},{}]},["km5uZ","1xC6H","bB7Pu"], "bB7Pu", "parcelRequire29f5")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./Stories.css":"aiK5T","./NewStoryFrom":"3LBoB"}],"aiK5T":[function() {},{}],"3LBoB":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$77c0 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$77c0.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _storiesCss = require("./Stories.css");
+var _s = $RefreshSig$();
+const NewStoryFrom = ({ setStory, setShowForm, selectedStory, setSelectedStory })=>{
+    _s();
+    const [name, setName] = (0, _react.useState)("");
+    function addStory() {
+        setStory((prev)=>{
+            return [
+                ...prev,
+                {
+                    name: name
+                }
+            ];
+        });
+        setSelectedStory(name);
+        setName("");
+        setShowForm(false);
+    }
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "form",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "title",
+                children: [
+                    "New Keep",
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                        fileName: "components/NewStoryFrom.js",
+                        lineNumber: 17,
+                        columnNumber: 52
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/NewStoryFrom.js",
+                lineNumber: 17,
+                columnNumber: 21
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                type: "text",
+                placeholder: "Name",
+                value: name,
+                onChange: (e)=>setName(e.target.value),
+                className: "input1"
+            }, void 0, false, {
+                fileName: "components/NewStoryFrom.js",
+                lineNumber: 18,
+                columnNumber: 21
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "login-with"
+            }, void 0, false, {
+                fileName: "components/NewStoryFrom.js",
+                lineNumber: 22,
+                columnNumber: 21
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                className: "button-confirm",
+                onClick: addStory,
+                children: "Let`s go \u2192"
+            }, void 0, false, {
+                fileName: "components/NewStoryFrom.js",
+                lineNumber: 31,
+                columnNumber: 21
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "components/NewStoryFrom.js",
+        lineNumber: 16,
+        columnNumber: 5
+    }, undefined);
+};
+_s(NewStoryFrom, "gFPpQ6rgfiGkmgRsh4q2nIO1W+Q=");
+_c = NewStoryFrom;
+exports.default = NewStoryFrom;
+var _c;
+$RefreshReg$(_c, "NewStoryFrom");
+
+  $parcel$ReactRefreshHelpers$77c0.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./Stories.css":"aiK5T","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"aiK5T":[function() {},{}],"3Xc81":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$a0d2 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$a0d2.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _textBoxCss = require("./textBox.css");
+const TextBox = ()=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+        autocomplete: "off",
+        name: "Email",
+        id: "Email",
+        className: "input",
+        type: "textbox"
+    }, void 0, false, {
+        fileName: "components/TextBox.js",
+        lineNumber: 7,
+        columnNumber: 8
+    }, undefined);
+};
+_c = TextBox;
+exports.default = TextBox;
+var _c;
+$RefreshReg$(_c, "TextBox");
+
+  $parcel$ReactRefreshHelpers$a0d2.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./textBox.css":"63IzX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"63IzX":[function() {},{}]},["km5uZ","1xC6H","bB7Pu"], "bB7Pu", "parcelRequire29f5")
 
 //# sourceMappingURL=index.3d214d75.js.map
