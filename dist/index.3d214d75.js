@@ -27305,6 +27305,12 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _storiesCss = require("./Stories.css");
 var _newStoryFrom = require("./NewStoryFrom");
 var _newStoryFromDefault = parcelHelpers.interopDefault(_newStoryFrom);
+var _deleteButton = require("./DeleteButton");
+var _deleteButtonDefault = parcelHelpers.interopDefault(_deleteButton);
+var _saveButton = require("./SaveButton");
+var _saveButtonDefault = parcelHelpers.interopDefault(_saveButton);
+var _popUp = require("./common_components/PopUp");
+var _popUpDefault = parcelHelpers.interopDefault(_popUp);
 var _s = $RefreshSig$();
 function Stories({ selectedStory, setSelectedStory }) {
     _s();
@@ -27312,15 +27318,38 @@ function Stories({ selectedStory, setSelectedStory }) {
     const [story, setStory] = (0, _react.useState)([]);
     const [showForm, setShowForm] = (0, _react.useState)(false);
     const [storyContent, setStoryContent] = (0, _react.useState)("");
-    function onSave() {
-        setFirstLoad(false);
-        setStory((prev)=>{
-            return prev.map((item)=>item.name === selectedStory ? {
-                    ...item,
-                    content: storyContent
-                } : item);
-        });
+    const [showPopUp, setShowPopUp] = (0, _react.useState)(false);
+    const [popUpProps, setPopUpProps] = (0, _react.useState)({
+        colsePopup: colsePopup,
+        title: "",
+        message: "",
+        onYes: ()=>{},
+        onNo: ()=>{}
+    });
+    function colsePopup() {
+        setShowPopUp(false);
     }
+    function onSave() {
+        setPopUpProps({
+            title: "Save keep ?",
+            message: "Testing",
+            onYes: ()=>{
+                setFirstLoad(false);
+                setStory((prev)=>{
+                    return prev.map((item)=>item.name === selectedStory ? {
+                            ...item,
+                            content: storyContent
+                        } : item);
+                });
+                colsePopup();
+            },
+            onNo: colsePopup
+        });
+        togglePopup();
+    }
+    const togglePopup = ()=>{
+        setShowPopUp(!showPopUp);
+    };
     (0, _react.useEffect)(()=>{
         if (!firstLoad) sessionStorage.setItem("story", JSON.stringify(story));
     }, [
@@ -27329,7 +27358,7 @@ function Stories({ selectedStory, setSelectedStory }) {
     (0, _react.useEffect)(()=>{
         if (selectedStory) {
             let temp = story.filter((x)=>x.name == selectedStory);
-            setStoryContent(temp[0].content);
+            temp[0].content ? setStoryContent(temp[0].content) : setStoryContent(" ");
         }
     }, [
         selectedStory
@@ -27343,8 +27372,12 @@ function Stories({ selectedStory, setSelectedStory }) {
     }
     function onDelete() {
         setFirstLoad(false);
+        setStoryContent(" ");
         setStory(story.filter((x)=>x.name != selectedStory));
         setSelectedStory("");
+    }
+    function onYes() {
+        alert("yesss");
     }
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
@@ -27360,7 +27393,7 @@ function Stories({ selectedStory, setSelectedStory }) {
                             children: item.name
                         }, item.name, false, {
                             fileName: "components/Stories.js",
-                            lineNumber: 51,
+                            lineNumber: 86,
                             columnNumber: 13
                         }, this);
                     }),
@@ -27368,18 +27401,18 @@ function Stories({ selectedStory, setSelectedStory }) {
                         className: "card1",
                         onClick: ()=>{
                             setShowForm(true);
-                            setStoryContent("");
+                            setSelectedStory(null);
                         },
                         children: "+"
                     }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 64,
+                        lineNumber: 99,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "components/Stories.js",
-                lineNumber: 48,
+                lineNumber: 83,
                 columnNumber: 7
             }, this),
             showForm && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27391,185 +27424,64 @@ function Stories({ selectedStory, setSelectedStory }) {
                     setSelectedStory: setSelectedStory
                 }, void 0, false, {
                     fileName: "components/Stories.js",
-                    lineNumber: 76,
+                    lineNumber: 111,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "components/Stories.js",
-                lineNumber: 75,
+                lineNumber: 110,
                 columnNumber: 9
             }, this),
             selectedStory && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "col-12",
                 children: [
                     " ",
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("textarea", {
                         value: storyContent,
                         onChange: (e)=>setStoryContent(e.target.value),
                         className: "input",
-                        type: "textbox"
+                        type: "textbox",
+                        multiline: "true"
                     }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 87,
+                        lineNumber: 122,
                         columnNumber: 11
                     }, this),
                     " "
                 ]
             }, void 0, true, {
                 fileName: "components/Stories.js",
-                lineNumber: 85,
+                lineNumber: 120,
                 columnNumber: 9
             }, this),
             selectedStory && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                 className: "col-12 bottomBtns d-flex flex-row-reverse ",
                 children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "btn-23 ",
-                        onClick: ()=>{
-                            onSave();
-                        },
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                className: "text",
-                                children: "SAVE"
-                            }, void 0, false, {
-                                fileName: "components/Stories.js",
-                                lineNumber: 103,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                "aria-hidden": "",
-                                className: "marquee",
-                                children: "SAVE"
-                            }, void 0, false, {
-                                fileName: "components/Stories.js",
-                                lineNumber: 104,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _saveButtonDefault.default), {
+                        onSave: onSave
+                    }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 97,
+                        lineNumber: 133,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "buttonDelete me-1",
-                        onClick: ()=>onDelete(),
-                        children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 69 14",
-                                className: "svgIcon bin-top",
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("g", {
-                                        "clip-path": "url(#clip0_35_24)",
-                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                                            fill: "black",
-                                            d: "M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z"
-                                        }, void 0, false, {
-                                            fileName: "components/Stories.js",
-                                            lineNumber: 116,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "components/Stories.js",
-                                        lineNumber: 115,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("defs", {
-                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("clipPath", {
-                                            id: "clip0_35_24",
-                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("rect", {
-                                                fill: "white",
-                                                height: "14",
-                                                width: "69"
-                                            }, void 0, false, {
-                                                fileName: "components/Stories.js",
-                                                lineNumber: 123,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "components/Stories.js",
-                                            lineNumber: 122,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "components/Stories.js",
-                                        lineNumber: 121,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "components/Stories.js",
-                                lineNumber: 109,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
-                                xmlns: "http://www.w3.org/2000/svg",
-                                fill: "none",
-                                viewBox: "0 0 69 57",
-                                className: "svgIcon bin-bottom",
-                                children: [
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("g", {
-                                        "clip-path": "url(#clip0_35_22)",
-                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
-                                            fill: "black",
-                                            d: "M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z"
-                                        }, void 0, false, {
-                                            fileName: "components/Stories.js",
-                                            lineNumber: 135,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "components/Stories.js",
-                                        lineNumber: 134,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("defs", {
-                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("clipPath", {
-                                            id: "clip0_35_22",
-                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("rect", {
-                                                fill: "white",
-                                                height: "57",
-                                                width: "69"
-                                            }, void 0, false, {
-                                                fileName: "components/Stories.js",
-                                                lineNumber: 142,
-                                                columnNumber: 19
-                                            }, this)
-                                        }, void 0, false, {
-                                            fileName: "components/Stories.js",
-                                            lineNumber: 141,
-                                            columnNumber: 17
-                                        }, this)
-                                    }, void 0, false, {
-                                        fileName: "components/Stories.js",
-                                        lineNumber: 140,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "components/Stories.js",
-                                lineNumber: 128,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _deleteButtonDefault.default), {
+                        onDelete: onDelete
+                    }, void 0, false, {
                         fileName: "components/Stories.js",
-                        lineNumber: 108,
+                        lineNumber: 134,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "components/Stories.js",
-                lineNumber: 96,
+                lineNumber: 132,
                 columnNumber: 9
-            }, this)
+            }, this),
+            showPopUp && popUp
         ]
     }, void 0, true);
 }
-_s(Stories, "nEhkuzxCGAYUWHzZBPmZ6t1/uBQ=");
+_s(Stories, "vukChLLLWLgVNYu+pIKs0uwvUxQ=");
 _c = Stories;
 exports.default = Stories;
 var _c;
@@ -27580,7 +27492,7 @@ $RefreshReg$(_c, "Stories");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./Stories.css":"aiK5T","./NewStoryFrom":"3LBoB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"aiK5T":[function() {},{}],"3LBoB":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./Stories.css":"aiK5T","./NewStoryFrom":"3LBoB","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./DeleteButton":"1v2Ji","./SaveButton":"ftOP8","./common_components/PopUp":"5M3qy"}],"aiK5T":[function() {},{}],"3LBoB":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$77c0 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -27649,7 +27561,8 @@ const NewStoryFrom = ({ setStory, setShowForm, selectedStory, setSelectedStory }
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                 className: "button-confirm",
                 onClick: addStory,
-                children: "Let`s go \u2192"
+                disabled: name.length == 0,
+                children: "Create KEEP \u2192"
             }, void 0, false, {
                 fileName: "components/NewStoryFrom.js",
                 lineNumber: 31,
@@ -27841,7 +27754,263 @@ function registerExportsForReactRefresh(module1) {
     }
 }
 
-},{"7422ead32dcc1e6b":"786KC"}],"3Xc81":[function(require,module,exports) {
+},{"7422ead32dcc1e6b":"786KC"}],"1v2Ji":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$9e83 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$9e83.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+const DeleteButton = ({ onDelete })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+        className: "buttonDelete me-1",
+        onClick: ()=>onDelete(),
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                xmlns: "http://www.w3.org/2000/svg",
+                fill: "none",
+                viewBox: "0 0 69 14",
+                className: "svgIcon bin-top",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("g", {
+                        "clip-path": "url(#clip0_35_24)",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                            fill: "black",
+                            d: "M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z"
+                        }, void 0, false, {
+                            fileName: "components/DeleteButton.js",
+                            lineNumber: 13,
+                            columnNumber: 17
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "components/DeleteButton.js",
+                        lineNumber: 12,
+                        columnNumber: 15
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("defs", {
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("clipPath", {
+                            id: "clip0_35_24",
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("rect", {
+                                fill: "white",
+                                height: "14",
+                                width: "69"
+                            }, void 0, false, {
+                                fileName: "components/DeleteButton.js",
+                                lineNumber: 20,
+                                columnNumber: 19
+                            }, undefined)
+                        }, void 0, false, {
+                            fileName: "components/DeleteButton.js",
+                            lineNumber: 19,
+                            columnNumber: 17
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "components/DeleteButton.js",
+                        lineNumber: 18,
+                        columnNumber: 15
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/DeleteButton.js",
+                lineNumber: 6,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                xmlns: "http://www.w3.org/2000/svg",
+                fill: "none",
+                viewBox: "0 0 69 57",
+                className: "svgIcon bin-bottom",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("g", {
+                        "clip-path": "url(#clip0_35_22)",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                            fill: "black",
+                            d: "M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z"
+                        }, void 0, false, {
+                            fileName: "components/DeleteButton.js",
+                            lineNumber: 32,
+                            columnNumber: 17
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "components/DeleteButton.js",
+                        lineNumber: 31,
+                        columnNumber: 15
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("defs", {
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("clipPath", {
+                            id: "clip0_35_22",
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("rect", {
+                                fill: "white",
+                                height: "57",
+                                width: "69"
+                            }, void 0, false, {
+                                fileName: "components/DeleteButton.js",
+                                lineNumber: 39,
+                                columnNumber: 19
+                            }, undefined)
+                        }, void 0, false, {
+                            fileName: "components/DeleteButton.js",
+                            lineNumber: 38,
+                            columnNumber: 17
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "components/DeleteButton.js",
+                        lineNumber: 37,
+                        columnNumber: 15
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "components/DeleteButton.js",
+                lineNumber: 25,
+                columnNumber: 13
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "components/DeleteButton.js",
+        lineNumber: 5,
+        columnNumber: 5
+    }, undefined);
+};
+_c = DeleteButton;
+exports.default = DeleteButton;
+var _c;
+$RefreshReg$(_c, "DeleteButton");
+
+  $parcel$ReactRefreshHelpers$9e83.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"ftOP8":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$ce18 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$ce18.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+const SaveButton = ({ onSave })=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+        className: "btn-23 ",
+        onClick: ()=>{
+            onSave();
+        },
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                className: "text",
+                children: "SAVE"
+            }, void 0, false, {
+                fileName: "components/SaveButton.js",
+                lineNumber: 11,
+                columnNumber: 5
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                "aria-hidden": "",
+                className: "marquee",
+                children: "SAVE"
+            }, void 0, false, {
+                fileName: "components/SaveButton.js",
+                lineNumber: 12,
+                columnNumber: 5
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "components/SaveButton.js",
+        lineNumber: 5,
+        columnNumber: 5
+    }, undefined);
+};
+_c = SaveButton;
+exports.default = SaveButton;
+var _c;
+$RefreshReg$(_c, "SaveButton");
+
+  $parcel$ReactRefreshHelpers$ce18.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"5M3qy":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$6632 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$6632.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+function PopUp(props) {
+    debugger;
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "popup-overlay",
+        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            className: "popup",
+            children: [
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
+                    children: props.title
+                }, void 0, false, {
+                    fileName: "components/common_components/PopUp.js",
+                    lineNumber: 8,
+                    columnNumber: 13
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                    children: props.message
+                }, void 0, false, {
+                    fileName: "components/common_components/PopUp.js",
+                    lineNumber: 9,
+                    columnNumber: 13
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                    onClick: props.onYes,
+                    children: "Yes"
+                }, void 0, false, {
+                    fileName: "components/common_components/PopUp.js",
+                    lineNumber: 10,
+                    columnNumber: 13
+                }, this),
+                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                    onClick: props.onNo,
+                    children: "No"
+                }, void 0, false, {
+                    fileName: "components/common_components/PopUp.js",
+                    lineNumber: 11,
+                    columnNumber: 13
+                }, this)
+            ]
+        }, void 0, true, {
+            fileName: "components/common_components/PopUp.js",
+            lineNumber: 7,
+            columnNumber: 11
+        }, this)
+    }, void 0, false, {
+        fileName: "components/common_components/PopUp.js",
+        lineNumber: 6,
+        columnNumber: 5
+    }, this);
+}
+_c = PopUp;
+exports.default = PopUp;
+var _c;
+$RefreshReg$(_c, "PopUp");
+
+  $parcel$ReactRefreshHelpers$6632.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"3Xc81":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$a0d2 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
